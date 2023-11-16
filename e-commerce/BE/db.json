@@ -1,19 +1,189 @@
 {
-  "posts": [
+  "brands": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "brandName": "Apple"
+    },
+    {
+      "id": 2,
+      "brandName": "Sony"
+    },
+    {
+      "id": 3,
+      "brandName": "Samsung"
+    },
+    {
+      "id": 4,
+      "brandName": "Carrier"
+    },
+    {
+      "id": 5,
+      "brandName": "Dell"
     }
   ],
-  "comments": [
+  "categories": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "categoryName": "Mobile"
+    },
+    {
+      "id": 2,
+      "categoryName": "Electronics"
+    },
+    {
+      "id": 3,
+      "categoryName": "Appliances"
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "products": [
+    {
+      "id": 1,
+      "productName": "Apple iPhone",
+      "price": 8900,
+      "brandId": 1,
+      "categoryId": 1,
+      "rating": 5
+    },
+    {
+      "id": 2,
+      "productName": "Apple iPad Pro",
+      "price": 12400,
+      "brandId": 1,
+      "categoryId": 2,
+      "rating": 5
+    },
+    {
+      "id": 3,
+      "productName": "Sony Camera",
+      "price": 4500,
+      "brandId": 2,
+      "categoryId": 2,
+      "rating": 4
+    },
+    {
+      "id": 4,
+      "productName": "Sony 5.1 Home Theatre",
+      "price": 4500,
+      "brandId": 2,
+      "categoryId": 2,
+      "rating": 4
+    },
+    {
+      "id": 5,
+      "productName": "Carrier 2 Ton Air Conditioner",
+      "price": 7780,
+      "brandId": 4,
+      "categoryId": 3,
+      "rating": 3
+    },
+    {
+      "id": 6,
+      "productName": "Dell Monitor",
+      "price": 880,
+      "brandId": 5,
+      "categoryId": 2,
+      "rating": 4
+    },
+    {
+      "id": 7,
+      "productName": "Sony Mobile Phone",
+      "price": 4848,
+      "brandId": 2,
+      "categoryId": 1,
+      "rating": 2
+    },
+    {
+      "id": 8,
+      "productName": "Samsung Mobile Phone",
+      "price": 2540,
+      "brandId": 3,
+      "categoryId": 1,
+      "rating": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "scott@test.com",
+      "password": "Scott123",
+      "fullName": "Scott",
+      "dateOfBirth": "2000-12-15",
+      "gender": "male",
+      "country": "UK",
+      "receiveNewsLetters": true
+    },
+    {
+      "email": "ebr@gmail.com",
+      "password": "Ebrahimjmi@786",
+      "fullName": "Mohd Ebrahim",
+      "dateOfBirth": "2023-11-18",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": true,
+      "id": 2
+    },
+    {
+      "email": "aziz@gmail.com",
+      "password": "Ebrahimjmi@786",
+      "fullName": "Aziz Ahmad",
+      "dateOfBirth": "2023-11-05",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": true,
+      "id": 3
+    },
+    {
+      "email": "kasim@gmail.com",
+      "password": "Kasim@786",
+      "fullName": "Mohd Kasim",
+      "dateOfBirth": "2023-11-18",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 4
+    },
+    {
+      "email": "umar@gmail.com",
+      "password": "Umarm@786",
+      "fullName": "Mohd Umar",
+      "dateOfBirth": "2023-11-18",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 5
+    },
+    {
+      "email": "sahil@gmail.com",
+      "password": "Sahil@786",
+      "fullName": "Sahil",
+      "dateOfBirth": "2023-11-24",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 6
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "productId": 1,
+      "quantity": 2,
+      "isPaymentCompleted": true
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "productId": 3,
+      "quantity": 12,
+      "isPaymentCompleted": true
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "productId": 4,
+      "quantity": 1,
+      "isPaymentCompleted": false
+    }
+  ]
 }
