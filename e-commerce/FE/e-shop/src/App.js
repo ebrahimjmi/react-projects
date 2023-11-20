@@ -6,20 +6,29 @@ import Dashboard from './components/Dashboard';
 import Navbar from './components/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from './context/UserContext';
+import { useState } from 'react';
 function App() {
+  const [user, setUser] = useState({
+    isLoggedIn: false,
+    currentUserId: null,
+    currentUserName: null,
+  });
   return (
     <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/*" element={<NoMatchPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </Router>
-      <ToastContainer />
+      <UserContext.Provider value={{user, setUser}}>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/*" element={<NoMatchPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </UserContext.Provider>
     </>
   );
 }

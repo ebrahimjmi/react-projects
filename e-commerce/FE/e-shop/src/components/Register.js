@@ -1,9 +1,12 @@
 import { event } from 'jquery';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { UserContext } from '../context/UserContext';
 
 const Register = () => {
 
+  const userContext = useContext(UserContext);
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -14,6 +17,7 @@ const Register = () => {
     receiveNewsLetters: "",
   })
 
+  const navigate = useNavigate();
   // const notify = (message) => toast(message);
 
   const [countries] = useState([
@@ -135,7 +139,15 @@ const Register = () => {
       });
 
       if (response.ok) {
+        let responseBody = await response.json();
         toast.success('Regitration successful!!');
+        userContext.setUser({
+          ...userContext.user,
+          isLoggedIn: true,
+          currentUserId: responseBody.id,
+          currentUserName: responseBody.fullName,
+        })
+        navigate('/dashboard');
       } else {
         setMessage(
           <span className="text-danger">Errors in database connection</span>

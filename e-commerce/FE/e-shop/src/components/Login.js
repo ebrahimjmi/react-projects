@@ -1,12 +1,15 @@
 import { event } from 'jquery';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { UserContext } from '../context/UserContext';
 
 const Login = () => {
-  const [email, setEmail] = useState("abc@gmail.com");
-  const [password, setPassword] = useState("abc@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const userContext = useContext(UserContext);
+  console.log(userContext);
   const [errors, setErrors] = useState({
     email: '',
     password: '',
@@ -54,7 +57,7 @@ const Login = () => {
 
   const onLoginClick = async () => {
     //set all controls as dirty
-    console.log('tet')
+
     let dirtyData = dirty;
     Object.keys(dirty).forEach((control) => {
       dirtyData[control] = true;
@@ -65,7 +68,6 @@ const Login = () => {
     validate();
 
     if (isValid()) {
-      console.log('true')
       let response = await fetch(
         `http://localhost:5000/users?email=${email}&password=${password}`,
         { method: "GET" }
@@ -74,6 +76,12 @@ const Login = () => {
         //Status code is 200
         let responseBody = await response.json();
         if (responseBody.length > 0) {
+          userContext.setUser({
+            ...userContext.user,
+            isLoggedIn: true,
+            currentUserName: responseBody[0].fullName,
+            currentUserId: responseBody[0].id,
+          })
           navigate('/dashboard');
         } else {
           toast.error('Invalid Login, please try again')
@@ -119,6 +127,11 @@ const Login = () => {
                 }}
                 placeholder="Email"
               />
+              <div className='text-danger'>
+                {
+                  dirty["email"] && errors["email"][0] ? errors[email] : ""
+                }
+              </div>
             </div>
             {/* email ends  */}
 
@@ -140,6 +153,11 @@ const Login = () => {
                   validate()
                 }}
               />
+              <div className='text-danger'>
+                {
+                  dirty["password"] && errors["password"][0] ? errors["password"] : ""
+                }
+              </div>
             </div>
             {/* password ends  */}
           </div>

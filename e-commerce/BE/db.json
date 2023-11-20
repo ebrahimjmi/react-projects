@@ -161,6 +161,56 @@
       "country": "1",
       "receiveNewsLetters": "",
       "id": 6
+    },
+    {
+      "email": "raj@gmail.com",
+      "password": "Rakumar@786",
+      "fullName": "Raj Kumae",
+      "dateOfBirth": "2023-11-18",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 7
+    },
+    {
+      "email": "abc@gmail.com",
+      "password": "Abc@786",
+      "fullName": "ABC",
+      "dateOfBirth": "2023-11-09",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 8
+    },
+    {
+      "email": "ebr@gmail.com",
+      "password": "Ebr@786",
+      "fullName": "EBR",
+      "dateOfBirth": "2023-12-04",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 9
+    },
+    {
+      "email": "kamal@gmail.com",
+      "password": "Kamal@786",
+      "fullName": "Kamal",
+      "dateOfBirth": "2023-11-29",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 10
+    },
+    {
+      "email": "amit@gmail.com",
+      "password": "Amit@786",
+      "fullName": "Amit Kumar",
+      "dateOfBirth": "2023-11-26",
+      "gender": "male",
+      "country": "1",
+      "receiveNewsLetters": "",
+      "id": 11
     }
   ],
   "orders": [
