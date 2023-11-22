@@ -5,7 +5,6 @@ import { UserContext } from '../context/UserContext'
 const Navbar = () => {
   const userContext = useContext(UserContext);
   const { user } = userContext;
-  console.log(user.currentUserName);
   let onLogoutClick = (event) => {
     event.preventDefault();
 
@@ -41,7 +40,7 @@ const Navbar = () => {
               <Link
                 className="nav-link"
                 to="/dashboard"
-                activeClassName="active"
+                
               >
                 <i className="fa fa-dashboard"></i> Dashboard
               </Link>
@@ -55,8 +54,6 @@ const Navbar = () => {
               <Link
                 className="nav-link"
                 to="/"
-                activeClassName="active"
-                exact={true}
               >
                 Login
               </Link>
@@ -70,7 +67,7 @@ const Navbar = () => {
               <Link
                 className="nav-link"
                 to="/register"
-                activeClassName="active"
+                
               >
                 Register
               </Link>

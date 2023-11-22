@@ -5,11 +5,10 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../context/UserContext';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("kasim@gmail.com");
+  const [password, setPassword] = useState("Kasim@786");
   const navigate = useNavigate();
   const userContext = useContext(UserContext);
-  console.log(userContext);
   const [errors, setErrors] = useState({
     email: '',
     password: '',

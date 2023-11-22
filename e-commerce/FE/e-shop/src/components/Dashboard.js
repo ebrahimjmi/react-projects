@@ -1,62 +1,54 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import Order from './Order';
-
+import { OrderService, ProductService } from './Service';
 const Dashboard = () => {
 
 
   const [orders, setOrders] = useState([]);
-
+  console.log('rendring');
   const userContext = useContext(UserContext);
-  console.log(userContext)
 
+  const loadDataFromDatabase = async () => {
+    let ordersResponse = await fetch(
+      `http://localhost:5000/orders?userid=${userContext.user.currentUserId}`,
+      { method: "GET" }
+    );
+    if (ordersResponse.ok) {
+      //status code is 200
+      let ordersResponseBody = await ordersResponse.json();
+
+      //get all data from products
+      let productsResponse = await fetch("http://localhost:5000/products", {
+        method: "GET",
+      });
+      if (productsResponse.ok) {
+        let productsResponseBody = await productsResponse.json();
+
+        //read all orders data
+        ordersResponseBody.forEach((order) => {
+          order.product = ProductService.getProductByProductId(
+            productsResponseBody,
+            order.productId
+          );
+        });
+        console.log(ordersResponseBody);
+        setOrders(ordersResponseBody);
+      }
+    }
+  }
   useEffect(() => {
     document.title = 'Dashboard - eCommerce';
-    (async () => {
-      let ordersResponse = await fetch(
-        `http://localhost:5000/orders?userid=${userContext.user.currentUserId}`,
-        { method: "GET" }
-      );
-      if (ordersResponse.ok) {
-        //status code is 200
-        let ordersResponseBody = await ordersResponse.json();
+    loadDataFromDatabase();
+  },[userContext.user.currentUserId])
 
-        //get all data from products
-        let productsResponse = await fetch("http://localhost:5000/products", {
-          method: "GET",
-        });
-        if (productsResponse.ok) {
-          let productsResponseBody = await productsResponse.json();
 
-          //read all orders data
-          ordersResponseBody.forEach((order) => {
-            order.product = productsResponseBody.find(
-              (prod) => prod.id === order.productId
-            );
-          });
-
-          console.log(ordersResponseBody);
-
-          setOrders(ordersResponseBody);
-        }
-      }
-    })()
-  }, [])
-
-  //getPreviousOrders
-  let getPreviousOrders = (orders) => {
-    return orders.filter((ord) => ord.isPaymentCompleted === true);
-  };
-
-  //getCart
-  let getCart = (orders) => {
-    return orders.filter((ord) => ord.isPaymentCompleted === false);
-  };
   return (
     <div className="row">
       <div className="col-12 py-3 header">
         <h4>
           <i className="fa fa-dashboard"></i> Dashboard
+          <button className='btn btn-sm btn-info' onClick={loadDataFromDatabase}><i className='fa fa-refresh mx-2'></i>Refresh</button>
         </h4>
       </div>
 
@@ -66,18 +58,18 @@ const Dashboard = () => {
           <div className="col-lg-6">
             <h4 className="py-2 my-2 text-info border-bottom border-info">
               <i className="fa fa-history"></i> Previous Orders{" "}
-              <span className="badge badge-info">
-                {getPreviousOrders(orders).length}
+              <span className="badge bg-primary">
+                {OrderService.getPreviousOrders(orders).length}
               </span>
             </h4>
 
-            {getPreviousOrders(orders).length === 0 ? (
+            {OrderService.getPreviousOrders(orders).length === 0 ? (
               <div className="text-danger">No Orders</div>
             ) : (
               ""
             )}
 
-            {getPreviousOrders(orders).map((ord) => {
+            {OrderService.getPreviousOrders(orders).map((ord) => {
               return (
                 <Order
                   key={ord.id}
@@ -98,18 +90,18 @@ const Dashboard = () => {
           <div className="col-lg-6">
             <h4 className="py-2 my-2 text-primary border-bottom border-primary">
               <i className="fa fa-shopping-cart"></i> Cart{" "}
-              <span className="badge badge-primary">
-                {getCart(orders).length}
+              <span className="badge bg-primary ">
+                {OrderService.getCart(orders).length}
               </span>
             </h4>
 
-            {getCart(orders).length === 0 ? (
+            {OrderService.getCart(orders).length === 0 ? (
               <div className="text-danger">No products in your cart</div>
             ) : (
               ""
             )}
 
-            {getCart(orders).map((ord) => {
+            {OrderService.getCart(orders).map((ord) => {
               return (
                 <Order
                   key={ord.id}
