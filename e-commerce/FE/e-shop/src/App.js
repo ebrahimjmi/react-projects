@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from './context/UserContext';
 import { useState } from 'react';
+import Store from './components/Store';
 function App() {
   const [user, setUser] = useState({
     isLoggedIn: false,
@@ -25,6 +26,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/*" element={<NoMatchPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/store" element={<Store />} />
           </Routes>
         </Router>
         <ToastContainer />

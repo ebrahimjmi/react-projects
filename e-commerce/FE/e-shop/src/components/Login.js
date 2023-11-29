@@ -9,6 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("Kasim@786");
   const navigate = useNavigate();
   const userContext = useContext(UserContext);
+  console.log(userContext);
   const [errors, setErrors] = useState({
     email: '',
     password: '',
@@ -71,10 +72,12 @@ const Login = () => {
         `http://localhost:5000/users?email=${email}&password=${password}`,
         { method: "GET" }
       );
+
       if (response.ok) {
         //Status code is 200
         let responseBody = await response.json();
         if (responseBody.length > 0) {
+          console.log(responseBody);
           userContext.setUser({
             ...userContext.user,
             isLoggedIn: true,

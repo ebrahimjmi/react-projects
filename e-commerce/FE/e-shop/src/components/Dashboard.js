@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { UserContext } from '../context/UserContext'
 import Order from './Order';
 import { OrderService, ProductService } from './Service';
@@ -6,22 +6,23 @@ const Dashboard = () => {
 
 
   const [orders, setOrders] = useState([]);
-  console.log('rendring');
+  const [showOrderDeleteAlert, setShowOrderDeleteAlert] = useState(false);
+  const [showOrderPlacedAlert, setShowOrderPlacedAlert] = useState(false);
   const userContext = useContext(UserContext);
 
-  const loadDataFromDatabase = async () => {
+  const loadDataFromDatabase = useCallback(async () => {
+    //load data from database
     let ordersResponse = await fetch(
       `http://localhost:5000/orders?userid=${userContext.user.currentUserId}`,
       { method: "GET" }
     );
+
     if (ordersResponse.ok) {
       //status code is 200
       let ordersResponseBody = await ordersResponse.json();
 
       //get all data from products
-      let productsResponse = await fetch("http://localhost:5000/products", {
-        method: "GET",
-      });
+      let productsResponse = await ProductService.fetchProducts();
       if (productsResponse.ok) {
         let productsResponseBody = await productsResponse.json();
 
@@ -32,15 +33,55 @@ const Dashboard = () => {
             order.productId
           );
         });
-        console.log(ordersResponseBody);
+
         setOrders(ordersResponseBody);
       }
     }
-  }
+  }, [userContext.user.currentUserId])
+
+  const onByNowClick = useCallback(async (orderId, userId, productId, quantity, isPaymentCompleted) => {
+    const updateOrder = {
+      id: orderId,
+      productId: productId,
+      userId: userId,
+      quantity: quantity,
+      isPaymentCompleted: true,
+    }
+    const orderResponse = await fetch(
+      `http://localhost:5000/orders/${orderId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updateOrder),
+        headers: { "Content-type": "application/json" },
+      }
+    );
+    const orderResponseBody = await orderResponse.json();
+    setShowOrderPlacedAlert(true);
+    loadDataFromDatabase();
+  }, [loadDataFromDatabase])
+
+  const onDeleteClick = useCallback(async (orderId) => {
+    console.log(orderId);
+    if (window.confirm("Are you sure to delete this item from cart?")) {
+      let orderResponse = await fetch(
+        `http://localhost:5000/orders/${orderId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (orderResponse.ok) {
+        let orderResponseBody = await orderResponse.json();
+        console.log(orderResponseBody);
+        setShowOrderDeleteAlert(true);
+
+        loadDataFromDatabase();
+      }
+    }
+  }, [loadDataFromDatabase])
   useEffect(() => {
     document.title = 'Dashboard - eCommerce';
     loadDataFromDatabase();
-  },[userContext.user.currentUserId])
+  }, [userContext.user.currentUserId])
 
 
   return (
@@ -94,7 +135,16 @@ const Dashboard = () => {
                 {OrderService.getCart(orders).length}
               </span>
             </h4>
-
+            {
+              showOrderPlacedAlert ? (
+                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                  <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              ) : (
+                ""
+              )
+            }
             {OrderService.getCart(orders).length === 0 ? (
               <div className="text-danger">No products in your cart</div>
             ) : (
@@ -111,7 +161,7 @@ const Dashboard = () => {
                   isPaymentCompleted={ord.isPaymentCompleted}
                   quantity={ord.quantity}
                   productName={ord.product.productName}
-                  price={ord.product.price}
+                  price={ord.product.price} onByNowClick={onByNowClick} onDeleteClick={onDeleteClick}
                 />
               );
             })}

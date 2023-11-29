@@ -97,12 +97,17 @@ const Navbar = () => {
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <Link
                     className="dropdown-item"
-                    href="/#"
+                    href="/"
                     onClick={onLogoutClick}
                   >
                     Logout
                   </Link>
                 </div>
+              </li>
+              <li className='nav-item'>
+                <Link to='/store'>
+                 <i className='fa fa-shopping-bag'>Store</i>
+                </Link>
               </li>
             </ul>
           </div>

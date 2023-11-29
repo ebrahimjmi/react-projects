@@ -1,3 +1,6 @@
 .navbar-style {
   background-color: #2a67ad !important;
 }
+.float-right {
+  float: right;
+}
